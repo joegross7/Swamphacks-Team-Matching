@@ -3,13 +3,11 @@ import operator
 import math
 
 class Student:
-     def __init__(self, name, email, year, participated, experienceLvl,  teammatesNum, language, projectType):
+     def __init__(self, name, email, experienceLvl,  teammatesNum, language, projectType):
         self.name = name
         self.email = email
-        self.year = year
-        self.participated = participated
         self.experienceLvl = experienceLvl
-        self.teammatesNum = teammatesNum
+        self.teammatesNum = (teammatesNum)
         self.language = language
         self.projectType = projectType
         self.groupList = []
@@ -21,15 +19,13 @@ class Groups:
         self.experienceSum = student.experienceLvl;
         self.language = student.language
         self.numStudent = student.teammatesNum
-        self.locked = False
         student.groupList.append(self.groupNum)
     def AddStudent(self, student):
         self.studentList.append(student)
         self.experienceSum += student.experienceLvl
         self.numStudent += student.teammatesNum
         student.groupList.append(self.groupNum)
-        if self.numStudent >= 4:
-            self.locked = True
+
         
 
 class GroupsList:
@@ -37,94 +33,103 @@ class GroupsList:
         self.groupList = groupList
         self.cu
 
-def unholyAlgorithm(studentList):
+def addUniqueToArray(arr, element):
+    for e in arr:
+        if e == element:
+            return
+        
+    arr.append(element)
+    return        
+
+def teamMatchingAlgorithm(studentList):
     groupMaxNum = 4
-    #create base groups
-    javaStudentList = []
-    pythonStudentList = []
-    cStudentList = []
+    #sort langugages into an array
+    languageDict = {}
+    for student in studentList:
+        tempGroup = languageDict.get(student.language)
+        if tempGroup == None:
+            languageDict[student.language] = Groups(student,0)
+        else:
+            tempGroup.AddStudent(student)
+
+
+
+    
     #sort into language groups
     threeCount = 0
     oneCount = 0
-    twoCount = 0
-    totalStudentCount = 0
-    for s in studentList:
-        if s.language == "Python":
-            pythonStudentList.append(s)
-        elif s.language == "Java":
-            javaStudentList.append(s)
-        elif s.language == "C/C++":
-            cStudentList.append(s)
-        totalStudentCount += s.teammatesNum        
-    
-        
-    #sort language groups by first team mate number then experience level
-    pythonStudentList.sort(key=operator.attrgetter("teammatesNum", "experienceLvl"), reverse=True)
-    javaStudentList.sort(key=operator.attrgetter('teammatesNum', "experienceLvl"), reverse=True)
-    cStudentList.sort(key=operator.attrgetter('teammatesNum', "experienceLvl"), reverse=True)
+    totalStudentCount = 0      
 
-    languageList = [javaStudentList.copy(), pythonStudentList.copy(), cStudentList.copy()]
-    languageGroupList = []
-
-    unholyArray = []
+    teamMatchingArray = []
     maxRounds = 3
 
-    for i in range(maxRounds):
-        languageList = [javaStudentList.copy(), pythonStudentList.copy(), cStudentList.copy()]
+    languageGroupList = []
+
+    for s in studentList:
+        s.groupList = []    
+
+
+    for roundCounter in range(maxRounds):
         unplacedStudents = []
         groupCounter = 0
-        for ll in languageList:
+        for languageGroup in languageDict:
             #get total number of students
             studentSum = 0
             threeCount = 0
-            for s in ll:
-                studentSum += s.teammatesNum
-                if s.teammatesNum == 3:
+            for student in languageDict[languageGroup].studentList:
+                studentSum += student.teammatesNum
+                totalStudentCount += student.teammatesNum
+                if student.teammatesNum == 3:
                     threeCount += 1
+                if student.teammatesNum == 1:
+                    oneCount += 1    
             #divide total students by 4 to get number of 4 person groups. also get remainder for extra group
-            groupNum = math.ceil(studentSum/groupMaxNum)
+            test = (float(studentSum)/groupMaxNum)
+            groupNum = int(math.ceil(test))
             if threeCount > groupNum:
                 groupNum = threeCount
             #if lots of groups of 3's, they set the max group num
             remainder =  studentSum % groupMaxNum
-            languageGroup = []
-            for c in range(groupNum):
+            languageStudentList = []
+            for s in languageDict[languageGroup].studentList:
+                languageStudentList.append(s)
+            languageStudentList.sort(key=operator.attrgetter("teammatesNum"),reverse=True)    
+            groupList_ = []
+            for i in range(groupNum):
                 #create the required amount of groups for the specific language and initialize them with the first n students which are sorted by number of team mates
                 groupCounter += 1 #global group number 
                 #creating the groups with the first student in array then remove them 
-                languageGroup.append(Groups(ll[0], groupCounter))
-                #print("Group #", {languageGroup[len(languageGroup)-1].groupNum}, " \n")
-                #print("Number of students: " , {languageGroup[len(languageGroup)-1].studentList[0].teammatesNum} , "\nExp Lvl: " , {languageGroup[len(languageGroup)-1].studentList[0].experienceLvl} , " \n \n ")
-                ll.remove(ll[0])
-            #while the languageList still has entities
-            infiniteLoopStopper = 10
+                groupList_.append(Groups(languageStudentList[0], groupCounter))
+                languageStudentList.pop(0)
             loopCounter = 0
             counterEnable = False
-            while len(ll) != 0 | loopCounter != infiniteLoopStopper:
+            while len(languageStudentList) != 0 | loopCounter != groupNum:
                 #iterate through the rest of the groups backwards and assign them to groups to get a total less than 4
-                for g in reversed(languageGroup):
-                    for s in ll:
+                for g in reversed(groupList_):
+                    for s in languageStudentList:
                         studentInGroup = False
                         for sGroups in s.groupList:
                             if g.groupNum == sGroups:
                                 studentInGroup = True
-                        if s.teammatesNum + g.numStudent <= groupMaxNum and studentInGroup == False:
+                        if s.teammatesNum + g.numStudent <= groupMaxNum and studentInGroup == False and s.language == s.language:
                             g.AddStudent(s)
                             #print("Group #", {g.groupNum}, " \n")
                             #print("Number of students: " , {g.numStudent} , "\nExp Lvl: " , {g.experienceSum} , " \n \n ")
-                            ll.remove(s)
+                            languageStudentList.remove(s)
                             #QprintGroups(languageGroup)
-                if len(ll) < 3:
-                    counterEnable = True
-                if counterEnable:
+                fullGroupTally = 0
+                for group in groupList_:
+                    if g.numStudent >= 3:
+                        fullGroupTally += 1
+                if fullGroupTally == groupNum:         
                     loopCounter += 1
                     
-            for s in ll:
+            for s in languageStudentList:
                 unplacedStudents.append(s)
 
             #languageGroup.sort(key=operator.attrgetter("experienceSum"))
-
-            languageGroupList.append(languageGroup)
+            
+            languageGroupList.append(groupList_)
             #printGroups(languageGroup)
 
 
@@ -144,7 +149,7 @@ def unholyAlgorithm(studentList):
         #                temp.append((str)(g.experiencesum))
         #                temp.append((str)(s.experiencelvl))
         #                temp.append((str)(g.numstudent))
-        #                unholyarray.append(temp)   
+        #                teamMatchingarray.append(temp)   
         #
                         
     groupArr = languageGroupList[0]
@@ -166,7 +171,8 @@ def unholyAlgorithm(studentList):
     groupHeader = ["Group Number"]
     for s in range(1,groupMaxNum+1):
         groupHeader.append("Student #" + (str)(s))
-                    
+
+
 
     perRound = groupCounter/maxRounds
     for s in studentList:
@@ -177,19 +183,19 @@ def unholyAlgorithm(studentList):
             #temp.append(g  - perRound * c)
             temp.append(g)
             c += 1
-        unholyArray.append(temp)
+        teamMatchingArray.append(temp)
         
     #header = ["Student name", "Group Number", "Group Language", "Group Exp", "Student Exp", "Number of students"]
     header = ["Student Name"]
     for i in range(maxRounds):
         header.append("Group " + (str)(i + 1))
 
-    with open('results.csv', 'w', newline='') as csvfile:
+    with open('/home/UFAD/grossj/SwampHacks/Swamphacks-Team-Matching/results.csv', 'w') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(header)
-        writer.writerows(unholyArray)
+        writer.writerows(teamMatchingArray)
                  
-    with open('groupInformation.csv', 'w', newline='') as csvfile1:
+    with open('/home/UFAD/grossj/SwampHacks/Swamphacks-Team-Matching/groupInformation.csv', 'w') as csvfile1:
         writer1 = csv.writer(csvfile1)
         writer1.writerow(groupHeader)
         for i in range(0,len(groupPrintArr) - 4,5):
@@ -201,7 +207,7 @@ def unholyAlgorithm(studentList):
     
 
     
-    return groupList
+    return groupList_
     
 def printGroups(languageGroup):
     for g in languageGroup:
@@ -209,31 +215,27 @@ def printGroups(languageGroup):
         print("Number of students: " , {g.numStudent} , "\nExp Lvl: " , {g.experienceSum} , " \n \n ")
 
 
-with open('Swamphacks Team Matching Form.csv', newline='') as csvfile:
+with open("/home/UFAD/grossj/SwampHacks/Swamphacks-Team-Matching/Swamphacks Team Matching Form.csv") as csvfile:
     reader = csv.reader(csvfile, delimiter=',') 
+    g = type(reader)
     studentList = []
     for row in reader:
-        studentList.append(Student(row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8]))
+        studentList.append(Student(row[1], row[2], row[3], row[4], row[5], row[6]))
     
 studentList.pop(0)
 for student in studentList:
+    if student.teammatesNum == "I am currently not in a team":
+        student.teammatesNum = 1
     if student.experienceLvl == "Beginner":
         student.experienceLvl = 1*((int)(student.teammatesNum))
     elif student.experienceLvl == "Intermediate":
+
         student.experienceLvl = 2*((int)(student.teammatesNum))
     elif student.experienceLvl == "Advanced":
         student.experienceLvl = 3*((int)(student.teammatesNum))
-    if student.year == "Freshmen":
-        student.year = 1
-    elif student.year == "Sophomore":
-        student.year = 2
-    elif student.year == "Junior":
-        student.year = 3
-    elif student.year == "Senior":
-        student.year = 4
-    student.teammatesNum = (int)(student.teammatesNum)
+    student.teammatesNum = int(student.teammatesNum)
 
-unholyAlgorithm(studentList)
+teamMatchingAlgorithm(studentList)
     
 
 
