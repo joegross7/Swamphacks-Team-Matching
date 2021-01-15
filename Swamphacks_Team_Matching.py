@@ -20,6 +20,8 @@ class Groups:
         self.language = student.language
         self.numStudent = student.teammatesNum
         student.groupList.append(self.groupNum)
+        self.projectType = student.projectType       
+
     def AddStudent(self, student):
         self.studentList.append(student)
         self.experienceSum += student.experienceLvl
@@ -43,14 +45,28 @@ def addUniqueToArray(arr, element):
 
 def teamMatchingAlgorithm(studentList):
     groupMaxNum = 4
-    #sort langugages into an array
+    #sort langugages into an dict. put students into separate language groups
     languageDict = {}
+    projectDictDict = {}
     for student in studentList:
-        tempGroup = languageDict.get(student.language)
-        if tempGroup == None:
+        templanguageGroup = languageDict.get(student.language)
+        if templanguageGroup == None:
             languageDict[student.language] = Groups(student,0)
         else:
-            tempGroup.AddStudent(student)
+            templanguageGroup.AddStudent(student)
+    
+
+    for languageGroup in languageDict:
+        projectDict = {}
+        for student in languageDict[languageGroup].studentList:
+            tempProjectGroup = projectDict.get(student.projectType)
+            if tempProjectGroup == None:
+                projectDict[student.projectType] = Groups(student,0)
+            else:
+                tempProjectGroup.AddStudent(student)
+        projectDictDict[languageGroup] = projectDict        
+
+
 
 
 
@@ -103,7 +119,7 @@ def teamMatchingAlgorithm(studentList):
                 languageStudentList.pop(0)
             loopCounter = 0
             counterEnable = False
-            while len(languageStudentList) != 0 | loopCounter != groupNum:
+            while len(languageStudentList) != 0 | loopCounter < groupNum:
                 #iterate through the rest of the groups backwards and assign them to groups to get a total less than 4
                 for g in reversed(groupList_):
                     for s in languageStudentList:
@@ -111,7 +127,7 @@ def teamMatchingAlgorithm(studentList):
                         for sGroups in s.groupList:
                             if g.groupNum == sGroups:
                                 studentInGroup = True
-                        if s.teammatesNum + g.numStudent <= groupMaxNum and studentInGroup == False and s.language == s.language:
+                        if s.teammatesNum + g.numStudent <= groupMaxNum and studentInGroup == False and s.language == s.language and s.projectType == g.projectType:
                             g.AddStudent(s)
                             #print("Group #", {g.groupNum}, " \n")
                             #print("Number of students: " , {g.numStudent} , "\nExp Lvl: " , {g.experienceSum} , " \n \n ")
@@ -189,6 +205,21 @@ def teamMatchingAlgorithm(studentList):
     header = ["Student Name"]
     for i in range(maxRounds):
         header.append("Group " + (str)(i + 1))
+
+    header1 = ["Student Name", "Group Num", "Language", "Project Type"]
+    unplacedArr = []
+    for z in unplacedStudents:
+        temp = []
+        temp.append(z.name)
+        temp.append(z.teammatesNum)
+        temp.append(z.language)
+        temp.append(z.projectType)
+        unplacedArr.append(temp)
+
+    with open('/home/UFAD/grossj/SwampHacks/Swamphacks-Team-Matching/unplacedStudents.csv', 'w') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(header1)
+        writer.writerows(unplacedArr)
 
     with open('/home/UFAD/grossj/SwampHacks/Swamphacks-Team-Matching/results.csv', 'w') as csvfile:
         writer = csv.writer(csvfile)
