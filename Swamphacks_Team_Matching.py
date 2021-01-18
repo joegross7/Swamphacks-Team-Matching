@@ -11,6 +11,8 @@ class Student:
         self.language = language
         self.projectType = projectType
         self.groupList = []
+        self.previousTeammatesList = []       
+
 
 class Groups:
     def __init__(self, student, groupNum):
@@ -20,7 +22,7 @@ class Groups:
         self.language = student.language
         self.numStudent = student.teammatesNum
         student.groupList.append(self.groupNum)
-        self.projectType = student.projectType       
+        self.projectType = student.projectType
 
     def AddStudent(self, student):
         self.studentList.append(student)
@@ -84,69 +86,50 @@ def teamMatchingAlgorithm(studentList):
     for s in studentList:
         s.groupList = []    
 
+    groupCounter = 1
 
     for roundCounter in range(maxRounds):
         unplacedStudents = []
         groupCounter = 0
-        for languageGroup in languageDict:
-            #get total number of students
-            studentSum = 0
-            threeCount = 0
-            for student in languageDict[languageGroup].studentList:
-                studentSum += student.teammatesNum
-                totalStudentCount += student.teammatesNum
-                if student.teammatesNum == 3:
-                    threeCount += 1
-                if student.teammatesNum == 1:
-                    oneCount += 1    
-            #divide total students by 4 to get number of 4 person groups. also get remainder for extra group
-            test = (float(studentSum)/groupMaxNum)
-            groupNum = int(math.ceil(test))
-            if threeCount > groupNum:
-                groupNum = threeCount
-            #if lots of groups of 3's, they set the max group num
-            remainder =  studentSum % groupMaxNum
-            languageStudentList = []
-            for s in languageDict[languageGroup].studentList:
-                languageStudentList.append(s)
-            languageStudentList.sort(key=operator.attrgetter("teammatesNum"),reverse=True)    
-            groupList_ = []
-            for i in range(groupNum):
-                #create the required amount of groups for the specific language and initialize them with the first n students which are sorted by number of team mates
-                groupCounter += 1 #global group number 
-                #creating the groups with the first student in array then remove them 
-                groupList_.append(Groups(languageStudentList[0], groupCounter))
-                languageStudentList.pop(0)
-            loopCounter = 0
-            counterEnable = False
-            while len(languageStudentList) != 0 | loopCounter < groupNum:
-                #iterate through the rest of the groups backwards and assign them to groups to get a total less than 4
-                for g in reversed(groupList_):
-                    for s in languageStudentList:
-                        studentInGroup = False
-                        for sGroups in s.groupList:
-                            if g.groupNum == sGroups:
-                                studentInGroup = True
-                        if s.teammatesNum + g.numStudent <= groupMaxNum and studentInGroup == False and s.language == s.language and s.projectType == g.projectType:
-                            g.AddStudent(s)
-                            #print("Group #", {g.groupNum}, " \n")
-                            #print("Number of students: " , {g.numStudent} , "\nExp Lvl: " , {g.experienceSum} , " \n \n ")
-                            languageStudentList.remove(s)
-                            #QprintGroups(languageGroup)
-                fullGroupTally = 0
-                for group in groupList_:
-                    if g.numStudent >= 3:
-                        fullGroupTally += 1
-                if fullGroupTally == groupNum:         
-                    loopCounter += 1
-                    
-            for s in languageStudentList:
-                unplacedStudents.append(s)
+        for language in projectDictDict:
+            for project in projectDictDict.get(language):
+                languageAndProjectGroup = projectDictDict[language].get(project)
+                #get total number of students
+                studentSum = 0
+                threeCount = 0
+                for student in languageAndProjectGroup.studentList:
+                    studentSum += student.teammatesNum
+                    totalStudentCount += student.teammatesNum
+                    if student.teammatesNum == 3:
+                        threeCount += 1
+                    if student.teammatesNum == 1:
+                        oneCount += 1    
+                groupList = []
+                for student in languageAndProjectGroup.studentList:
+                    group = Groups(student, groupCounter)
+                    groupCounter += 1
+                    for teammate in languageAndProjectGroup.studentList:
+                        if teammate != student and len(student.groupList) < maxRounds:
+                            #check if the students have already been together 
+                            haveBeenTogether = False
+                            for studentsInGroup in group.studentList:
+                                for previousTeammates in studentsInGroup.previousTeammatesList:
+                                    if previousTeammates == teammate:
+                                        haveBeenTogether = True
+                            if group.numStudent + teammate.teammatesNum <= groupMaxNum and haveBeenTogether == False and len(teammate.groupList) < maxRounds:
+                                for studentsInGroup in group.studentList:
+                                    teammate.previousTeammatesList.append(studentsInGroup)
+                                    studentsInGroup.previousTeammatesList.append(teammate)
+                                group.AddStudent(teammate)
+                    if len(group.studentList) > 1:
+                        groupList.append(group)
+                    else:
+                        student.groupList.pop(len(student.groupList)-1)
 
-            #languageGroup.sort(key=operator.attrgetter("experienceSum"))
-            
-            languageGroupList.append(groupList_)
-            #printGroups(languageGroup)
+                languageGroupList.append(groupList)
+
+                #divide total students by 4 to get number of 4 person groups. also get remainder for extra group
+               
 
 
         #languagegrouplist[0].sort(key=operator.attrgetter("groupnum"))
@@ -184,6 +167,7 @@ def teamMatchingAlgorithm(studentList):
         while c < groupMaxNum:
             groupPrintArr.append("n/a")
             c += 1
+            
     groupHeader = ["Group Number"]
     for s in range(1,groupMaxNum+1):
         groupHeader.append("Student #" + (str)(s))
@@ -216,6 +200,27 @@ def teamMatchingAlgorithm(studentList):
         temp.append(z.projectType)
         unplacedArr.append(temp)
 
+    detailedHeader = ["Student Name", "Teammate Num", "Language", "Project Type"]
+    detailedInfoArr = []
+    for g in groupArr:
+        for s in g.studentList:
+            s = [g.groupNum, s.name, s.teammatesNum, s.language, s.projectType]
+            detailedInfoArr.append(s)
+    with open('/home/UFAD/grossj/SwampHacks/Swamphacks-Team-Matching/groupBreakdown.csv', 'w') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(detailedHeader)
+        writer.writerows(detailedInfoArr)
+
+
+    unplacedArr = []
+    for z in unplacedStudents:
+        temp = []
+        temp.append(z.name)
+        temp.append(z.teammatesNum)
+        temp.append(z.language)
+        temp.append(z.projectType)
+        unplacedArr.append(temp)
+
     with open('/home/UFAD/grossj/SwampHacks/Swamphacks-Team-Matching/unplacedStudents.csv', 'w') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(header1)
@@ -238,7 +243,7 @@ def teamMatchingAlgorithm(studentList):
     
 
     
-    return groupList_
+    return 1
     
 def printGroups(languageGroup):
     for g in languageGroup:
@@ -272,3 +277,54 @@ teamMatchingAlgorithm(studentList)
 
 
 
+
+
+#  test = (float(studentSum)/groupMaxNum)
+#                 groupNum = int(math.ceil(test))
+#                 if threeCount > groupNum:
+#                     groupNum = threeCount
+#                 #if lots of groups of 3's, they set the max group num
+#                 remainder =  studentSum % groupMaxNum
+#                 languageStudentList = []
+#                 for s in languageAndProjectGroup.studentList:
+#                     languageStudentList.append(s)
+#                 languageStudentList.sort(key=operator.attrgetter("teammatesNum"),reverse=True)    
+#                 groupList_ = []
+#                 T = []
+#                 for i in range(groupNum):
+#                     #create the required amount of groups for the specific language and initialize them with the first n students which are sorted by number of team mates
+#                     groupCounter += 1 #global group number 
+#                     #creating the groups with the first student in array then remove them 
+#                     groupList_.append(Groups(languageStudentList[0], groupCounter))
+#                     languageStudentList.pop(0)
+#                 loopCounter = 0
+#                 counterEnable = False
+#                 while len(languageStudentList) != 0 | loopCounter < groupNum:
+#                     beginningLength = len(languageStudentList)
+#                     #iterate through the rest of the groups backwards and assign them to groups to get a total less than 4
+#                     for g in reversed(groupList_):
+#                         for s in languageStudentList:
+#                             studentInGroup = False
+#                             for sGroups in s.groupList:
+#                                 if g.groupNum == sGroups:
+#                                     studentInGroup = True
+#                             if s.teammatesNum + g.numStudent <= groupMaxNum and studentInGroup == False and s.language == s.language and s.projectType == g.projectType:
+#                                 g.AddStudent(s)
+#                                 #print("Group #", {g.groupNum}, " \n")
+#                                 #print("Number of students: " , {g.numStudent} , "\nExp Lvl: " , {g.experienceSum} , " \n \n ")
+#                                 languageStudentList.remove(s)
+#                                 #QprintGroups(languageGroup)
+#                     fullGroupTally = 0
+#                     for group in groupList_:
+#                         if g.numStudent >= 3:
+#                             fullGroupTally += 1
+#                     if len(languageStudentList) == beginningLength:         
+#                         loopCounter += 1
+                        
+#                 for s in languageStudentList:
+#                     unplacedStudents.append(s)
+
+#                 #languageGroup.sort(key=operator.attrgetter("experienceSum"))
+                
+#                 languageGroupList.append(groupList_)
+#                 #printGroups(languageGroup)
