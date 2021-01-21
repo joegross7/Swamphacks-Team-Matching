@@ -12,6 +12,8 @@ class Student:
         self.projectType = projectType
         self.groupList = []
         self.previousTeammatesList = []       
+        self.groupChoiceList = []
+        self.assignedGroup = -1
 
 
 class Groups:
@@ -21,14 +23,15 @@ class Groups:
         self.experienceSum = student.experienceLvl;
         self.language = student.language
         self.numStudent = student.teammatesNum
-        student.groupList.append(self.groupNum)
+        student.groupList.append(self)
         self.projectType = student.projectType
+        self.round = -1
 
     def AddStudent(self, student):
         self.studentList.append(student)
         self.experienceSum += student.experienceLvl
         self.numStudent += student.teammatesNum
-        student.groupList.append(self.groupNum)
+        student.groupList.append(self)
 
         
 
@@ -86,11 +89,9 @@ def teamMatchingAlgorithm(studentList):
     for s in studentList:
         s.groupList = []    
 
-    groupCounter = 1
-
     for roundCounter in range(maxRounds):
+        groupCounter = 1
         unplacedStudents = []
-        groupCounter = 0
         for language in projectDictDict:
             for project in projectDictDict.get(language):
                 languageAndProjectGroup = projectDictDict[language].get(project)
@@ -108,7 +109,7 @@ def teamMatchingAlgorithm(studentList):
                 for student in languageAndProjectGroup.studentList:
                     group = Groups(student, groupCounter)
                     for teammate in languageAndProjectGroup.studentList:
-                        if teammate != student and len(student.groupList) < maxRounds and len(student.studentList) < maxRounds:
+                        if teammate != student and len(student.groupList) == roundCounter + 1 and len(student.groupList) < maxRounds:
                             #check if the students have already been together 
                             haveBeenTogether = False
                             for studentsInGroup in group.studentList:
@@ -120,9 +121,10 @@ def teamMatchingAlgorithm(studentList):
                                     teammate.previousTeammatesList.append(studentsInGroup)
                                     studentsInGroup.previousTeammatesList.append(teammate)
                                 group.AddStudent(teammate)
-                    if len(group.studentList) > 1:
+                    if len(group.studentList) > 1 and group.numStudent > 2:
                         groupCounter += 1
                         groupList.append(group)
+                        group.round = roundCounter
                     else:
                         student.groupList.pop(len(student.groupList)-1)
 
@@ -181,7 +183,8 @@ def teamMatchingAlgorithm(studentList):
         c  = 0
         for g in s.groupList:
             #temp.append(g  - perRound * c)
-            temp.append(g)
+            tempStr = (str)(g.groupNum) + " (" +(str)(g.round) + ")"
+            temp.append(tempStr)
             c += 1
         teamMatchingArray.append(temp)
         
@@ -239,18 +242,45 @@ def teamMatchingAlgorithm(studentList):
             writer1.writerow(temp)
 
         
-       
-    
+           
+    return groupArr, studentList
+
+ ##############################################################################
+
+def teamCreatingAlgorithm(groupArray, studentList):
+    maxRounds = 3
+    with open("/home/UFAD/grossj/SwampHacks/Swamphacks-Team-Matching/responses.csv") as csvfile:
+        reader = csv.reader(csvfile, delimiter=',') 
+        g = type(reader)
+        for row in reader:
+            for student in studentList:
+                if student.name == row[1] and row[1] != "What is your name?":
+                    student.groupChoiceList.append(row[2])
+                    student.groupChoiceList.append(row[3])
+                    student.groupChoiceList.append(row[4])
+    # for student in studentList:
+
 
     
-    return 1
     
+    
+    
+    # for group in groupArray:
+    #     everyStudentAgrees = True
+    #     for student in group.studentList:
+    #         #check first choice
+    #         if 
+                
+
+
+
+
 def printGroups(languageGroup):
     for g in languageGroup:
         print("Group #", {g.groupNum}, " \n")
         print("Number of students: " , {g.numStudent} , "\nExp Lvl: " , {g.experienceSum} , " \n \n ")
 
-
+###############################################################################################################
 with open("/home/UFAD/grossj/SwampHacks/Swamphacks-Team-Matching/Swamphacks Team Matching Form.csv") as csvfile:
     reader = csv.reader(csvfile, delimiter=',') 
     g = type(reader)
@@ -271,8 +301,8 @@ for student in studentList:
         student.experienceLvl = 3*((int)(student.teammatesNum))
     student.teammatesNum = int(student.teammatesNum)
 
-teamMatchingAlgorithm(studentList)
-    
+groupArray, studentList = teamMatchingAlgorithm(studentList)
+teamCreatingAlgorithm(groupArray, studentList)
 
 
 
