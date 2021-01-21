@@ -107,9 +107,8 @@ def teamMatchingAlgorithm(studentList):
                 groupList = []
                 for student in languageAndProjectGroup.studentList:
                     group = Groups(student, groupCounter)
-                    groupCounter += 1
                     for teammate in languageAndProjectGroup.studentList:
-                        if teammate != student and len(student.groupList) < maxRounds:
+                        if teammate != student and len(student.groupList) < maxRounds and len(student.studentList) < maxRounds:
                             #check if the students have already been together 
                             haveBeenTogether = False
                             for studentsInGroup in group.studentList:
@@ -122,6 +121,7 @@ def teamMatchingAlgorithm(studentList):
                                     studentsInGroup.previousTeammatesList.append(teammate)
                                 group.AddStudent(teammate)
                     if len(group.studentList) > 1:
+                        groupCounter += 1
                         groupList.append(group)
                     else:
                         student.groupList.pop(len(student.groupList)-1)
