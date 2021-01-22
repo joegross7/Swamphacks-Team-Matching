@@ -1,250 +1,55 @@
-Student Name,Teammate Num,Language,Project Type
-1,Test1,1,PHP,UX Design
-1,Test 21,3,PHP,UX Design
-1,Test 21,3,PHP,UX Design
-1,Test 117,1,PHP,UX Design
-2,Test 16,2,PHP,Web App
-2,Test 130,2,PHP,Web App
-2,Test 62,2,PHP,iOS Mobile App
-2,Test 180,1,PHP,iOS Mobile App
-3,Test 14,3,PHP,Hardware
-3,Test 22,1,PHP,Hardware
-3,Test 90,3,PHP,iOS Mobile App
-3,Test 199,1,PHP,iOS Mobile App
-4,Test 168,1,PHP,Hardware
-4,Test 14,3,PHP,Hardware
-4,Test 7,1,Javascript,Sponsor Challenge
-4,Test 32,3,Javascript,Sponsor Challenge
-5,Test 59,1,PHP,AXL/AI
-5,Test 81,1,PHP,AXL/AI
-5,Test 142,2,PHP,AXL/AI
-5,Test 47,1,Javascript,AXL/AI
-5,Test 155,2,Javascript,AXL/AI
-6,Test 61,2,PHP,iOS Mobile App
-6,Test 62,2,PHP,iOS Mobile App
-6,Test 133,1,Javascript,AXL/AI
-6,Test 155,2,Javascript,AXL/AI
-7,Test 90,3,PHP,iOS Mobile App
-7,Test 180,1,PHP,iOS Mobile App
-7,Test 115,1,Javascript,Andriod Mobile App
-7,Test 171,2,Javascript,Andriod Mobile App
-8,Test 199,1,PHP,iOS Mobile App
-8,Test 61,2,PHP,iOS Mobile App
-8,Test 180,1,PHP,iOS Mobile App
-8,Test 178,2,Javascript,Andriod Mobile App
-8,Test 115,1,Javascript,Andriod Mobile App
-9,Test 96,2,PHP,Andriod Mobile App
-9,Test 153,2,PHP,Andriod Mobile App
-9,Test 85,1,Python,AXL/AI
-9,Test 99,2,Python,AXL/AI
-10,Test2,2,Javascript,OSX Computer App
-10,Test 160,2,Javascript,OSX Computer App
-10,Test 128,2,Python,AXL/AI
-10,Test 85,1,Python,AXL/AI
-11,Test 32,3,Javascript,Sponsor Challenge
-11,Test 5,1,Javascript,Sponsor Challenge
-11,Test 131,2,Python,AXL/AI
-11,Test 99,2,Python,AXL/AI
-12,Test 15,2,Javascript,AXL/AI
-12,Test 47,1,Javascript,AXL/AI
-12,Test 133,1,Javascript,AXL/AI
-12,Test 158,3,R,Sponsor Challenge
-12,Test 162,1,R,Sponsor Challenge
-13,Test 155,2,Javascript,AXL/AI
-13,Test 15,2,Javascript,AXL/AI
-13,Test 139,2,R,Web App
-13,Test 140,2,R,Web App
-14,Test 55,3,Javascript,iOS Mobile App
-14,Test 201,1,Javascript,iOS Mobile App
-14,Test 66,2,Swift,OSX Computer App
-14,Test 170,2,Swift,OSX Computer App
-15,Test 174,3,Javascript,iOS Mobile App
-15,Test 201,1,Javascript,iOS Mobile App
-15,Test 164,2,Swift,Sponsor Challenge
-15,Test 198,1,Swift,Sponsor Challenge
-16,Test 84,2,Javascript,Andriod Mobile App
-16,Test 115,1,Javascript,Andriod Mobile App
-16,Test 173,1,Java,iOS Mobile App
-16,Test 192,3,Java,iOS Mobile App
-17,Test 171,2,Javascript,Andriod Mobile App
-17,Test 84,2,Javascript,Andriod Mobile App
-17,Test 75,2,Java,AXL/AI
-17,Test 122,2,Java,AXL/AI
-18,Test 178,2,Javascript,Andriod Mobile App
-18,Test 84,2,Javascript,Andriod Mobile App
-18,Test 33,3,C/C++,AXL/AI
-18,Test 144,1,C/C++,AXL/AI
-19,Test 87,1,Javascript,UX Design
-19,Test 143,3,Javascript,UX Design
-19,Test 43,2,C/C++,AXL/AI
-19,Test 92,2,C/C++,AXL/AI
-20,Test 3,2,Python,AXL/AI
-20,Test 6,2,Python,AXL/AI
-20,Test 93,3,C/C++,AXL/AI
-20,Test 144,1,C/C++,AXL/AI
-21,Test 85,1,Python,AXL/AI
-21,Test 3,2,Python,AXL/AI
-21,Test 103,1,C/C++,Web App
-21,Test 127,3,C/C++,Web App
-22,Test 99,2,Python,AXL/AI
-22,Test 3,2,Python,AXL/AI
-22,Test 82,2,C#,Sponsor Challenge
-22,Test 50,1,C#,Sponsor Challenge
-23,Test 128,2,Python,AXL/AI
-23,Test 6,2,Python,AXL/AI
-23,Test 118,1,C#,Sponsor Challenge
-23,Test 82,2,C#,Sponsor Challenge
-24,Test 131,2,Python,AXL/AI
-24,Test 6,2,Python,AXL/AI
-24,Test 86,2,C#,PC Computer APP
-24,Test 95,2,C#,PC Computer APP
-25,Test 42,2,Python,Andriod Mobile App
-25,Test 156,2,Python,Andriod Mobile App
-25,Test 124,2,C#,PC Computer APP
-25,Test 86,2,C#,PC Computer APP
-26,Test 44,1,Python,UX Design
-26,Test 105,3,Python,UX Design
-27,Test 167,3,Python,UX Design
-27,Test 44,1,Python,UX Design
-28,Test 57,1,Python,Web App
-28,Test 149,2,Python,Web App
-28,Test 193,1,Python,Web App
-29,Test 70,3,Python,Hardware
-29,Test 100,1,Python,Hardware
-30,Test 74,2,Python,iOS Mobile App
-30,Test 188,1,Python,iOS Mobile App
-31,Test 163,1,Python,OSX Computer App
-31,Test 187,1,Python,OSX Computer App
-31,Test 195,1,Python,OSX Computer App
-32,Test 4,2,R,Sponsor Challenge
-32,Test 134,1,R,Sponsor Challenge
-32,Test 162,1,R,Sponsor Challenge
-33,Test 158,3,R,Sponsor Challenge
-33,Test 134,1,R,Sponsor Challenge
-34,Test 23,3,R,Web App
-34,Test 27,1,R,Web App
-35,Test 139,2,R,Web App
-35,Test 27,1,R,Web App
-36,Test 140,2,R,Web App
-36,Test 27,1,R,Web App
-37,Test 97,3,R,PC Computer APP
-37,Test 166,1,R,PC Computer APP
-38,Test 169,3,R,PC Computer APP
-38,Test 166,1,R,PC Computer APP
-39,Test 106,3,R,Hardware
-39,Test 110,1,R,Hardware
-40,Test 165,3,R,Hardware
-40,Test 110,1,R,Hardware
-41,Test 151,2,R,OSX Computer App
-41,Test 186,2,R,OSX Computer App
-42,Test 8,1,Swift,OSX Computer App
-42,Test 66,2,Swift,OSX Computer App
-43,Test 138,3,Swift,OSX Computer App
-43,Test 8,1,Swift,OSX Computer App
-44,Test 170,2,Swift,OSX Computer App
-44,Test 8,1,Swift,OSX Computer App
-45,Test 31,3,Swift,Andriod Mobile App
-45,Test 147,1,Swift,Andriod Mobile App
-46,Test 202,1,Swift,Andriod Mobile App
-46,Test 31,3,Swift,Andriod Mobile App
-47,Test 38,1,Swift,PC Computer APP
-47,Test 53,2,Swift,PC Computer APP
-47,Test 73,1,Swift,PC Computer APP
-48,Test 41,1,Swift,AXL/AI
-48,Test 45,3,Swift,AXL/AI
-49,Test 113,2,Swift,AXL/AI
-49,Test 41,1,Swift,AXL/AI
-50,Test 126,3,Swift,AXL/AI
-50,Test 41,1,Swift,AXL/AI
-51,Test 65,3,Swift,Sponsor Challenge
-51,Test 198,1,Swift,Sponsor Challenge
-52,Test 77,3,Swift,Sponsor Challenge
-52,Test 198,1,Swift,Sponsor Challenge
-53,Test 164,2,Swift,Sponsor Challenge
-53,Test 185,2,Swift,Sponsor Challenge
-54,Test 11,1,Java,OSX Computer App
-54,Test 46,2,Java,OSX Computer App
-55,Test 141,3,Java,OSX Computer App
-55,Test 11,1,Java,OSX Computer App
-56,Test 17,2,Java,iOS Mobile App
-56,Test 157,1,Java,iOS Mobile App
-56,Test 173,1,Java,iOS Mobile App
-57,Test 192,3,Java,iOS Mobile App
-57,Test 157,1,Java,iOS Mobile App
-58,Test 18,3,Java,Sponsor Challenge
-58,Test 196,1,Java,Sponsor Challenge
-59,Test 64,3,Java,Sponsor Challenge
-59,Test 196,1,Java,Sponsor Challenge
-60,Test 176,3,Java,Sponsor Challenge
-60,Test 196,1,Java,Sponsor Challenge
-61,Test 28,1,Java,Hardware
-61,Test 197,3,Java,Hardware
-62,Test 48,2,Java,Andriod Mobile App
-62,Test 68,1,Java,Andriod Mobile App
-63,Test 71,3,Java,Andriod Mobile App
-63,Test 68,1,Java,Andriod Mobile App
-64,Test 150,3,Java,Andriod Mobile App
-64,Test 68,1,Java,Andriod Mobile App
-65,Test 182,2,Java,Andriod Mobile App
-65,Test 48,2,Java,Andriod Mobile App
-66,Test 72,2,Java,AXL/AI
-66,Test 75,2,Java,AXL/AI
-67,Test 122,2,Java,AXL/AI
-67,Test 72,2,Java,AXL/AI
-68,Test 39,2,C/C++,UX Design
-68,Test 51,2,C/C++,UX Design
-69,Test 19,3,C/C++,Hardware
-69,Test 98,1,C/C++,Hardware
-70,Test 36,2,C/C++,Hardware
-70,Test 98,1,C/C++,Hardware
-71,Test 37,3,C/C++,Hardware
-71,Test 98,1,C/C++,Hardware
-72,Test 25,2,C/C++,AXL/AI
-72,Test 43,2,C/C++,AXL/AI
-73,Test 33,3,C/C++,AXL/AI
-73,Test 63,1,C/C++,AXL/AI
-74,Test 92,2,C/C++,AXL/AI
-74,Test 25,2,C/C++,AXL/AI
-75,Test 93,3,C/C++,AXL/AI
-75,Test 63,1,C/C++,AXL/AI
-76,Test 121,3,C/C++,AXL/AI
-76,Test 63,1,C/C++,AXL/AI
-77,Test 129,3,C/C++,AXL/AI
-77,Test 144,1,C/C++,AXL/AI
-78,Test 30,2,C/C++,PC Computer APP
-78,Test 190,2,C/C++,PC Computer APP
-79,Test 127,3,C/C++,Web App
-79,Test 91,1,C/C++,Web App
-80,Test 29,3,C#,Sponsor Challenge
-80,Test 34,1,C#,Sponsor Challenge
-81,Test 35,1,C#,Sponsor Challenge
-81,Test 29,3,C#,Sponsor Challenge
-82,Test 50,1,C#,Sponsor Challenge
-82,Test 29,3,C#,Sponsor Challenge
-83,Test 82,2,C#,Sponsor Challenge
-83,Test 34,1,C#,Sponsor Challenge
-83,Test 35,1,C#,Sponsor Challenge
-84,Test 89,1,C#,Sponsor Challenge
-84,Test 34,1,C#,Sponsor Challenge
-84,Test 50,1,C#,Sponsor Challenge
-84,Test 118,1,C#,Sponsor Challenge
-85,Test 40,1,C#,Web App
-85,Test 60,1,C#,Web App
-85,Test 135,1,C#,Web App
-86,Test 54,1,C#,PC Computer APP
-86,Test 86,2,C#,PC Computer APP
-86,Test 88,1,C#,PC Computer APP
-87,Test 95,2,C#,PC Computer APP
-87,Test 54,1,C#,PC Computer APP
-88,Test 124,2,C#,PC Computer APP
-88,Test 54,1,C#,PC Computer APP
-89,Test 189,3,C#,PC Computer APP
-89,Test 88,1,C#,PC Computer APP
-90,Test 58,1,C#,UX Design
-90,Test 112,3,C#,UX Design
-91,Test 123,2,C#,UX Design
-91,Test 58,1,C#,UX Design
-92,Test 76,1,C#,AXL/AI
-92,Test 125,3,C#,AXL/AI
-93,Test 80,1,C#,Andriod Mobile App
-93,Test 148,2,C#,Andriod Mobile App
+Group Number,Student Name,Teammate Num,Language,Project Type,Experience Level
+1,Test 48,2,Java,Andriod Mobile App,4
+1,Test 182,2,Java,Andriod Mobile App,4
+1,Test 6,2,Python,AXL/AI,6
+1,Test 128,2,Python,AXL/AI,6
+2,Test 25,2,C/C++,AXL/AI,4
+2,Test 92,2,C/C++,AXL/AI,4
+2,Test 131,2,Python,AXL/AI,6
+2,Test 6,2,Python,AXL/AI,6
+3,Test 43,2,C/C++,AXL/AI,2
+3,Test 63,1,C/C++,AXL/AI,2
+3,Test 144,1,C/C++,AXL/AI,2
+3,Test 115,1,Javascript,Andriod Mobile App,2
+3,Test 178,2,Javascript,Andriod Mobile App,2
+4,Test 3,2,Python,AXL/AI,6
+4,Test 6,2,Python,AXL/AI,6
+4,Test 32,3,Javascript,Sponsor Challenge,3
+4,Test 5,1,Javascript,Sponsor Challenge,3
+5,Test 128,2,Python,AXL/AI,6
+5,Test 3,2,Python,AXL/AI,6
+6,Test 131,2,Python,AXL/AI,6
+6,Test 3,2,Python,AXL/AI,6
+7,Test 84,2,Javascript,Andriod Mobile App,2
+7,Test 115,1,Javascript,Andriod Mobile App,2
+8,Test 178,2,Javascript,Andriod Mobile App,2
+8,Test 84,2,Javascript,Andriod Mobile App,2
+9,Test 7,1,Javascript,Sponsor Challenge,3
+9,Test 32,3,Javascript,Sponsor Challenge,3
+10,Test 88,1,C#,PC Computer APP,2
+10,Test 124,2,C#,PC Computer APP,2
+11,Test 29,3,C#,Sponsor Challenge,3
+11,Test 35,1,C#,Sponsor Challenge,3
+12,Test 34,1,C#,Sponsor Challenge,2
+12,Test 50,1,C#,Sponsor Challenge,2
+12,Test 89,1,C#,Sponsor Challenge,2
+13,Test 151,2,R,OSX Computer App,2
+13,Test 186,2,R,OSX Computer App,2
+14,Test 96,2,PHP,Andriod Mobile App,2
+14,Test 153,2,PHP,Andriod Mobile App,2
+15,Test 61,2,PHP,iOS Mobile App,6
+15,Test 62,2,PHP,iOS Mobile App,6
+16,Test 90,3,PHP,iOS Mobile App,3
+16,Test 199,1,PHP,iOS Mobile App,3
+17,Test 16,2,PHP,Web App,2
+17,Test 130,2,PHP,Web App,2
+18,Test 38,1,Swift,PC Computer APP,2
+18,Test 53,2,Swift,PC Computer APP,2
+19,Test 31,3,Swift,Andriod Mobile App,3
+19,Test 147,1,Swift,Andriod Mobile App,3
+20,Test 202,1,Swift,Andriod Mobile App,3
+20,Test 31,3,Swift,Andriod Mobile App,3
+21,Test 66,2,Swift,OSX Computer App,4
+21,Test 170,2,Swift,OSX Computer App,4
+22,Test 164,2,Swift,Sponsor Challenge,6
+22,Test 185,2,Swift,Sponsor Challenge,6

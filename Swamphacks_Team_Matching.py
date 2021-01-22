@@ -1,6 +1,7 @@
 import csv
 import operator
 import math
+import random 
 
 class Student:
      def __init__(self, name, email, experienceLvl,  teammatesNum, language, projectType):
@@ -13,7 +14,7 @@ class Student:
         self.groupList = []
         self.previousTeammatesList = []       
         self.groupChoiceList = []
-        self.assignedGroup = -1
+        self.assignedGroup = None
 
 
 class Groups:
@@ -32,6 +33,11 @@ class Groups:
         self.experienceSum += student.experienceLvl
         self.numStudent += student.teammatesNum
         student.groupList.append(self)
+
+    def removeStudents(self):
+        for student in self.studentList:
+            student.groupList.remove(self)
+        studentList = []
 
         
 
@@ -116,7 +122,7 @@ def teamMatchingAlgorithm(studentList):
                                 for previousTeammates in studentsInGroup.previousTeammatesList:
                                     if previousTeammates == teammate:
                                         haveBeenTogether = True
-                            if group.numStudent + teammate.teammatesNum <= groupMaxNum and haveBeenTogether == False and len(teammate.groupList) < maxRounds:
+                            if group.numStudent + teammate.teammatesNum <= groupMaxNum and haveBeenTogether == False and len(teammate.groupList) < maxRounds and teammate.experienceLvl == student.experienceLvl:
                                 for studentsInGroup in group.studentList:
                                     teammate.previousTeammatesList.append(studentsInGroup)
                                     studentsInGroup.previousTeammatesList.append(teammate)
@@ -126,7 +132,7 @@ def teamMatchingAlgorithm(studentList):
                         groupList.append(group)
                         group.round = roundCounter
                     else:
-                        student.groupList.pop(len(student.groupList)-1)
+                        group.removeStudents()
 
                 languageGroupList.append(groupList)
 
@@ -203,11 +209,11 @@ def teamMatchingAlgorithm(studentList):
         temp.append(z.projectType)
         unplacedArr.append(temp)
 
-    detailedHeader = ["Student Name", "Teammate Num", "Language", "Project Type"]
+    detailedHeader = ["Group Number","Student Name", "Teammate Num", "Language", "Project Type", "Experience Level"]
     detailedInfoArr = []
     for g in groupArr:
         for s in g.studentList:
-            s = [g.groupNum, s.name, s.teammatesNum, s.language, s.projectType]
+            s = [g.groupNum, s.name, s.teammatesNum, s.language, s.projectType, s.experienceLvl]
             detailedInfoArr.append(s)
     with open('/home/UFAD/grossj/SwampHacks/Swamphacks-Team-Matching/groupBreakdown.csv', 'w') as csvfile:
         writer = csv.writer(csvfile)
@@ -248,17 +254,76 @@ def teamMatchingAlgorithm(studentList):
  ##############################################################################
 
 def teamCreatingAlgorithm(groupArray, studentList):
-    maxRounds = 3
-    with open("/home/UFAD/grossj/SwampHacks/Swamphacks-Team-Matching/responses.csv") as csvfile:
-        reader = csv.reader(csvfile, delimiter=',') 
-        g = type(reader)
-        for row in reader:
-            for student in studentList:
-                if student.name == row[1] and row[1] != "What is your name?":
-                    student.groupChoiceList.append(row[2])
-                    student.groupChoiceList.append(row[3])
-                    student.groupChoiceList.append(row[4])
+    # maxRounds = 3
+    # with open("/home/UFAD/grossj/SwampHacks/Swamphacks-Team-Matching/responses.csv") as csvfile:
+    #     reader = csv.reader(csvfile, delimiter=',') 
+    #     g = type(reader)
+    #     for row in reader:
+    #         for student in studentList:
+    #             if student.name == row[1] and row[1] != "What is your name?":
+    #                 choices = [(int)(row[2]), (int)(row[3]), (int)(row[4])]
+    #                 #check that the student's choices are valid
+    #                 for groupNumber in choices:
+    #                     for groupsStudentIn in student.groupList:
+    #                         if groupNumber == groupsStudentIn.groupNum and student in groupsStudentIn.studentList:
+    #                             student.groupChoiceList.append(groupsStudentIn)
+
+
+    #create fake student group choices for simulation purposes
+    for student in studentList:
+        while len(student.groupChoiceList) != len(student.groupList):
+            randGroup = student.groupList[random.randint(0, len(student.groupList)-1)]
+            if randGroup not in student.groupChoiceList:
+                student.groupChoiceList.append(randGroup)
+
+    placedStudentList = []
+
+    for student in studentList:
+        teamMatcher(student, placedStudentList)
+    count = 1
+    for student in studentList:
+        if len(student.groupList) != 0:
+            count += 1
+    print()
+                    
+    #iterate through every student
+
     # for student in studentList:
+    #     #iterate through the students group rankings
+    #     for studentGroupPick in student.groupChoiceList:
+    #         choiceRank = 0
+    #         #iterate through each other student in that group
+    #         for teammate in studentGroupPick.studentList:
+    #             unison = True
+    #             #iterate through teammates and check if their first choices are also that group
+    #             if teammate != student:
+
+    #                 if teammate.groupChoiceList[0] == 
+
+def teamMatcher(student, placedStudentList):
+    for choice in range(len(student.groupList)):    
+        if student.assignedGroup == None:
+            for index in range(len(student.groupList)):
+                groupPick = student.groupChoiceList[index]
+                unison = True
+                for teammate in groupPick.studentList:
+                    if teammate != student:
+                        if teammate.groupChoiceList[choice].groupNum != groupPick.groupNum | teammate.groupChoiceList[0].round != groupPick.round :
+                            unison = False
+                if unison:
+                    for student in groupPick.studentList:
+                        student.assignedGroup = groupPick
+                        placedStudentList.append(student)
+                    return
+
+            
+
+
+    
+                        
+
+
+
 
 
     
