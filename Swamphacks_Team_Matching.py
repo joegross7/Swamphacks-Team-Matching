@@ -298,7 +298,19 @@ def teamCreatingAlgorithm(groupArray, studentList):
     #             #iterate through teammates and check if their first choices are also that group
     #             if teammate != student:
 
-    #                 if teammate.groupChoiceList[0] == 
+    #                 if teammate.groupChoiceList[0] ==
+    studentList.sort(key=operator.attrgetter("name"),reverse=True)     
+    matchedHeader = ["Student Name", "Group Num"]
+    matchedArr = []
+    for student in studentList:
+        if student.assignedGroup == None:
+            matchedArr.append([student.name, "Not Placed"])
+        else:
+            matchedArr.append([student.name, student.assignedGroup.groupNum])
+    with open('/home/UFAD/grossj/SwampHacks/Swamphacks-Team-Matching/finalGroups.csv', 'w') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(matchedHeader)
+        writer.writerows(matchedArr)
 
 def teamMatcher(student, placedStudentList):
     for choice in range(len(student.groupList)):    
