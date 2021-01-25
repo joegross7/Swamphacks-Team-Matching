@@ -21,7 +21,7 @@ class Groups:
     def __init__(self, student, groupNum):
         self.groupNum = groupNum
         self.studentList = [student]
-        self.experienceSum = student.experienceLvl;
+        self.experienceLvl = student.experienceLvl;
         self.language = student.language
         self.numStudent = student.teammatesNum
         student.groupList.append(self)
@@ -30,7 +30,6 @@ class Groups:
 
     def AddStudent(self, student):
         self.studentList.append(student)
-        self.experienceSum += student.experienceLvl
         self.numStudent += student.teammatesNum
         student.groupList.append(self)
 
@@ -57,25 +56,35 @@ def addUniqueToArray(arr, element):
 def teamMatchingAlgorithm(studentList):
     groupMaxNum = 4
     #sort langugages into an dict. put students into separate language groups
-    languageDict = {}
+    # languageDict = {}
+    # projectDictDict = {}
+    # for student in studentList:
+    #     templanguageGroup = languageDict.get(student.language)
+    #     if templanguageGroup == None:
+    #         languageDict[student.language] = Groups(student,0)
+    #     else:
+    #         templanguageGroup.AddStudent(student)
+
+    #sort langugages into an dict. put students into separate exp level groups
+    expLvlDict = {}
     projectDictDict = {}
     for student in studentList:
-        templanguageGroup = languageDict.get(student.language)
-        if templanguageGroup == None:
-            languageDict[student.language] = Groups(student,0)
+        tempExpLvlGroup = expLvlDict.get(student.experienceLvl)
+        if tempExpLvlGroup == None:
+            expLvlDict[student.experienceLvl] = Groups(student,0)
         else:
-            templanguageGroup.AddStudent(student)
+            tempExpLvlGroup.AddStudent(student)
     
 
-    for languageGroup in languageDict:
+    for expLvl in expLvlDict:
         projectDict = {}
-        for student in languageDict[languageGroup].studentList:
+        for student in expLvlDict[expLvl].studentList:
             tempProjectGroup = projectDict.get(student.projectType)
             if tempProjectGroup == None:
                 projectDict[student.projectType] = Groups(student,0)
             else:
                 tempProjectGroup.AddStudent(student)
-        projectDictDict[languageGroup] = projectDict        
+        projectDictDict[expLvl] = projectDict        
 
 
 
@@ -90,7 +99,7 @@ def teamMatchingAlgorithm(studentList):
     teamMatchingArray = []
     maxRounds = 3
 
-    languageGroupList = []
+    expLvlGroupList = []
 
     for s in studentList:
         s.groupList = []    
@@ -98,13 +107,13 @@ def teamMatchingAlgorithm(studentList):
     for roundCounter in range(maxRounds):
         groupCounter = 1
         unplacedStudents = []
-        for language in projectDictDict:
-            for project in projectDictDict.get(language):
-                languageAndProjectGroup = projectDictDict[language].get(project)
+        for expLvl in projectDictDict:
+            for project in projectDictDict.get(expLvl):
+                expLvlAndProjectGroup = projectDictDict[expLvl].get(project)
                 #get total number of students
                 studentSum = 0
                 threeCount = 0
-                for student in languageAndProjectGroup.studentList:
+                for student in expLvlAndProjectGroup.studentList:
                     studentSum += student.teammatesNum
                     totalStudentCount += student.teammatesNum
                     if student.teammatesNum == 3:
@@ -112,9 +121,10 @@ def teamMatchingAlgorithm(studentList):
                     if student.teammatesNum == 1:
                         oneCount += 1    
                 groupList = []
-                for student in languageAndProjectGroup.studentList:
+                matchingCriteria
+                for student in expLvlAndProjectGroup.studentList:
                     group = Groups(student, groupCounter)
-                    for teammate in languageAndProjectGroup.studentList:
+                    for teammate in expLvlAndProjectGroup.studentList:
                         if teammate != student and len(student.groupList) == roundCounter + 1 and len(student.groupList) < maxRounds:
                             #check if the students have already been together 
                             haveBeenTogether = False
@@ -122,7 +132,7 @@ def teamMatchingAlgorithm(studentList):
                                 for previousTeammates in studentsInGroup.previousTeammatesList:
                                     if previousTeammates == teammate:
                                         haveBeenTogether = True
-                            if group.numStudent + teammate.teammatesNum <= groupMaxNum and haveBeenTogether == False and len(teammate.groupList) < maxRounds and teammate.experienceLvl/teammate.teammatesNum == student.experienceLvl/student.teammatesNum:
+                            if group.numStudent + teammate.teammatesNum <= groupMaxNum and haveBeenTogether == False and len(teammate.groupList) < maxRounds:
                                 for studentsInGroup in group.studentList:
                                     teammate.previousTeammatesList.append(studentsInGroup)
                                     studentsInGroup.previousTeammatesList.append(teammate)
@@ -134,7 +144,7 @@ def teamMatchingAlgorithm(studentList):
                     else:
                         group.removeStudents()
 
-                languageGroupList += groupList
+                expLvlGroupList += groupList
 
                 #divide total students by 4 to get number of 4 person groups. also get remainder for extra group
                
@@ -369,12 +379,11 @@ for student in studentList:
     if student.teammatesNum == "I am currently not in a team":
         student.teammatesNum = 1
     if student.experienceLvl == "Beginner":
-        student.experienceLvl = 1*((int)(student.teammatesNum))
+        student.experienceLvl = 1
     elif student.experienceLvl == "Intermediate":
-
-        student.experienceLvl = 2*((int)(student.teammatesNum))
+        student.experienceLvl = 2
     elif student.experienceLvl == "Advanced":
-        student.experienceLvl = 3*((int)(student.teammatesNum))
+        student.experienceLvl = 3
     student.teammatesNum = int(student.teammatesNum)
 
 groupArray, studentList = teamMatchingAlgorithm(studentList)
